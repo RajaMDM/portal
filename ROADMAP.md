@@ -15,7 +15,13 @@ Where the Portal is heading, what's blocked, and what triggers the next phase.
   product direction.* (TRY-2)
 - **Set up deployment.** Wire a deploy to the chosen free static host (GitHub
   Pages / Netlify / Cloudflare Pages). Confirm `PORTAL_BASE` is set correctly for
-  the target (project path vs. custom domain).
+  the target (project path vs. custom domain). **Deployment-safety guardrail:**
+  the Portal deploys *additively* to its own Pages project or a
+  `portal.trykarkedekho.com` subdomain — **never** over the live
+  `trykarkedekho.com` apex (separate codebase, live production). No `CNAME` to
+  the apex, no Cloudflare DNS change, no apex cutover without explicit board
+  approval (apex cutover = sev-1, staged plan + rollback required). Full detail
+  in `TECH_MEMORY.md` → Deployment Safety and `DEFENSE_BRIEF.md`. (TRY-2, TRY-7)
 - **First real mini-app.** Replace the Welcome Tour with an actual tool once the
   CEO names the first priority (school tool, data tool, recipe space, or AI
   example).

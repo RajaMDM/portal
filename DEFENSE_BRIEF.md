@@ -54,9 +54,40 @@ interactive app plumbing.
   library or a backend datastore (Supabase free tier, etc.) when localStorage
   stops being enough.
 
+## Deployment Safety (non-negotiable guardrail)
+
+**Decision: the Portal deploys are additive and will never touch the live site.**
+
+`trykarkedekho.com` is a LIVE production site under RajaMDM and a **separate
+codebase** (Astro/Cloudflare) — not this Portal repo. Board directive on TRY-2:
+*"We do not touch the live site by any means."*
+
+What this means in practice:
+
+- The Portal ships to its **own** GitHub Pages project site, or to a dedicated
+  `portal.trykarkedekho.com` subdomain. It never overwrites the apex.
+- No `CNAME` to the apex, no Cloudflare DNS change, no apex cutover without
+  **explicit board approval**. An apex cutover is treated as a **sev-1** change:
+  staged plan + tested rollback required before it runs.
+- API keys are runtime-entered only; no secrets are committed or baked into a
+  deploy config.
+
+### If a developer pushes back
+
+- *"Why not just point the Portal at the main domain?"* — Because a live
+  production site already serves real users there from a different codebase.
+  Repointing DNS or dropping a `CNAME` at the apex would take it down. The board
+  has explicitly ruled that out; the upgrade path (if we ever want the apex) is a
+  staged, rollback-tested sev-1 change with board sign-off, not a deploy
+  side-effect.
+- *"It's just a docs/static deploy, low risk."* — DNS and apex changes are
+  one-way doors for a live site. We keep Portal deploys on a separate
+  origin/subdomain precisely so a routine deploy can never have a blast radius on
+  production.
+
 ## Open governance item
 
-A separate portal is **already live at trykarkedekho.com** (github.com/RajaMDM).
-Whether this scaffold is the canonical repo or we adopt the existing one is a
-source-of-truth decision for the CEO — raised on TRY-2. This brief assumes the
-scaffold-as-foundation case until told otherwise.
+Whether this scaffold is the canonical repo or we adopt the existing live
+codebase is a source-of-truth decision for the CEO — raised on TRY-2. This brief
+assumes the scaffold-as-foundation case until told otherwise. Either way, the
+Deployment Safety guardrail above is unconditional.

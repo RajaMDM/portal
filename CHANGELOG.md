@@ -2,6 +2,22 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-26 (later)
+
+**Codified the live-site no-touch deployment guardrail (TRY-7).**
+
+- Added an explicit **Deployment Safety** section to `TECH_MEMORY.md` and
+  `DEFENSE_BRIEF.md`, plus a guardrail note on the deployment item in
+  `ROADMAP.md`. States that `trykarkedekho.com` is a live production site on a
+  separate codebase, that Portal deploys are additive (own Pages project or
+  `portal.trykarkedekho.com` subdomain), and that any apex `CNAME`/DNS/cutover
+  needs explicit board approval (apex cutover = sev-1, staged plan + rollback).
+
+_Business impact:_ the guardrail now lives in the repo, not just in CEO/engineer
+memory — a future agent reading the docs before a deploy will see the constraint
+without tribal knowledge, reducing the risk of accidentally taking the live site
+down.
+
 ## 2026-06-26
 
 **Foundation: stack decision + repo scaffold (TRY-2).**

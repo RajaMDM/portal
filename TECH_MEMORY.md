@@ -63,9 +63,31 @@ a separate `WelcomeApp-*.js` chunk.
   variables in `index.css` and should be reused by mini-apps rather than
   hardcoding colors.
 
-## Known external context
+## Deployment Safety (read before ANY deploy)
 
-A separate, more complete portal is **already live at trykarkedekho.com**
-(github.com/RajaMDM) — not this codebase. Source-of-truth reconciliation is an
-open question raised to the CEO on TRY-2; do not assume this scaffold is the
-deployed site until that is resolved.
+**`trykarkedekho.com` is a LIVE production site and a SEPARATE codebase**
+(github.com/RajaMDM, Astro/Cloudflare) — it is NOT this Portal repo. Board
+directive on TRY-2: *"We do not touch the live site by any means."* This is a
+hard guardrail, not a preference. Any agent or engineer must honor it without
+needing tribal knowledge.
+
+Rules:
+
+- **Never deploy the Portal over the live site.** Do not point a Portal build,
+  branch, or CI job at the `trykarkedekho.com` apex/origin under any
+  circumstances.
+- **Portal deploys are additive only.** Ship to the Portal's *own* GitHub Pages
+  project site, or to a dedicated `portal.trykarkedekho.com` subdomain — never
+  the apex.
+- **No DNS / domain changes without explicit board approval.** No `CNAME` file
+  pointing at the apex, no Cloudflare DNS edits, no apex cutover. An apex
+  cutover is a **sev-1** change and requires a staged plan + tested rollback
+  signed off by the board *before* execution.
+- **No secrets, ever.** API keys for any mini-app are entered by the user at
+  runtime and kept in memory / browser storage only — nothing committed to the
+  repo or a deploy config.
+
+Source-of-truth reconciliation (is this scaffold canonical, or do we adopt the
+live codebase?) is an open question raised to the CEO on TRY-2. Until resolved,
+do not assume this scaffold is the deployed site — but regardless of that
+outcome, the no-touch guardrail above stands.
