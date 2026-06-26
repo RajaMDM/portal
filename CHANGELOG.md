@@ -2,6 +2,29 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-26 (shell + navigation)
+
+**Portal shell with four top-level sections (TRY-3).**
+
+- Added a **sections registry** (`src/sections.ts`) as the single source of
+  truth for the four areas: **School, Data, Recipes, AI Examples**. It carries
+  each section's name, tagline, icon, and the mini-app `category` it surfaces.
+- New generic **section page** (`src/pages/Section.tsx`) mounted at `/:section`.
+  It lists the live mini-apps in its category, or shows an **empty-state
+  placeholder** ("Nothing here yet") until any ship. One component serves all
+  four sections, so adding a section is a one-line registry change.
+- Nav (`Layout`) and the home page now generate their links from the sections
+  registry. Home leads with the four section cards, then a "Jump back in" strip
+  of any live mini-apps.
+- Styling: section hero icon, empty-state card, and the home mini-app strip.
+
+_Business impact:_ the Portal now has a real navigable shell. A visitor can
+reach all four product areas from the nav and see what each will hold, even
+before the first tool ships. Verified in a headless browser: all four sections
+resolve, render their names + empty states, nav highlights the active section,
+the layout reflows on mobile (375px), unknown routes fall back to NotFound, and
+the example mini-app still lazy-loads. `npm run build` and `npm run lint` pass.
+
 ## 2026-06-26 (later)
 
 **Codified the live-site no-touch deployment guardrail (TRY-7).**

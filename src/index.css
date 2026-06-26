@@ -230,6 +230,51 @@ a.app-card:hover {
   color: var(--accent);
 }
 
+/* ---- Section pages: hero icon, "jump back in" strip, empty state ----- */
+
+.section-hero__icon {
+  display: block;
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.home-apps {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.home-apps__heading {
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  max-width: 520px;
+  margin: 8px auto 0;
+  padding: 48px 24px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+}
+
+.empty-state__icon {
+  font-size: 40px;
+  opacity: 0.7;
+}
+
+.empty-state__title {
+  margin: 8px 0 0;
+}
+
 /* ---- Prose pages (About, NotFound, mini-app default) ----------------- */
 
 .prose {

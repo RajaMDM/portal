@@ -1,10 +1,10 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { liveApps } from '../apps/registry'
+import { sections } from '../sections'
 
 /**
  * The Portal shell: a persistent header with primary nav plus an <Outlet/> the
- * router fills with the active page. Live mini-apps are listed in the nav
- * automatically from the registry.
+ * router fills with the active page. The four sections are listed in the nav
+ * automatically from the sections registry.
  */
 export default function Layout() {
   return (
@@ -17,9 +17,9 @@ export default function Layout() {
           <NavLink to="/" end>
             Home
           </NavLink>
-          {liveApps.map((app) => (
-            <NavLink key={app.slug} to={`/apps/${app.slug}`}>
-              {app.name}
+          {sections.map((section) => (
+            <NavLink key={section.slug} to={`/${section.slug}`}>
+              {section.name}
             </NavLink>
           ))}
           <NavLink to="/about">About</NavLink>

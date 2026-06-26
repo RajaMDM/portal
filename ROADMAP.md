@@ -7,6 +7,13 @@ Where the Portal is heading, what's blocked, and what triggers the next phase.
 - Stack chosen, repo scaffolded, build green, docs seeded, git initialized.
 - Mini-app registry pattern in place with one example mini-app.
 
+## Phase 1 — Portal shell + navigation ✅ (2026-06-26, TRY-3)
+
+- Four top-level sections (School, Data, Recipes, AI Examples) reachable via
+  nav, driven by a sections registry. Each section renders an empty-state
+  placeholder until a mini-app in its category ships. Responsive; verified in
+  a headless browser.
+
 ## Immediate next
 
 - **Resolve source-of-truth with the CEO.** A separate portal is already live at

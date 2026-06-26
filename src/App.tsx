@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
+import Section from './pages/Section'
 import NotFound from './pages/NotFound'
 import { apps } from './apps/registry'
 
@@ -17,6 +18,7 @@ export default function App() {
       <Route element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
+        <Route path=":section" element={<Section />} />
         {apps
           .filter((app) => app.status === 'live' && app.component)
           .map((app) => {
