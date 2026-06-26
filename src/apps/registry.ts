@@ -30,6 +30,16 @@ export interface MiniApp {
 
 export const apps: MiniApp[] = [
   {
+    slug: 'recipes',
+    name: 'Recipe Book',
+    description:
+      'Save, browse, and search recipes — kept in your browser, no account needed. The Portal’s first real vertical slice.',
+    category: 'Recipes',
+    icon: '🍳',
+    status: 'live',
+    component: lazy(() => import('./recipes/RecipesApp')),
+  },
+  {
     slug: 'welcome',
     name: 'Welcome Tour',
     description:

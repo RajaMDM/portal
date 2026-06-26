@@ -1,0 +1,240 @@
+/**
+ * Scoped styles for the Recipes mini-app. All colours come from the Portal's
+ * design tokens (the --accent / --border / --card-bg vars defined in
+ * src/index.css) so the app inherits light/dark mode for free and stays
+ * visually consistent with the shell.
+ */
+
+.recipes {
+  max-width: 760px;
+}
+
+.recipes__intro {
+  margin-bottom: 24px;
+}
+
+/* ---- Toolbar: search + add toggle ---------------------------------- */
+
+.recipes__toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.recipes__search {
+  flex: 1 1 240px;
+  font: inherit;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.recipes__search:focus {
+  outline: none;
+  border-color: var(--accent-border);
+}
+
+.recipes__count {
+  font-size: 14px;
+  margin: 0 0 24px;
+}
+
+/* ---- Buttons -------------------------------------------------------- */
+
+.recipes__btn {
+  font: inherit;
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+  white-space: nowrap;
+}
+
+.recipes__btn:hover {
+  border-color: var(--accent);
+}
+
+.recipes__btn--ghost {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+.recipes__btn--danger {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  padding: 4px 10px;
+}
+
+.recipes__btn--danger:hover {
+  border-color: #d65a5a;
+  color: #d65a5a;
+}
+
+/* ---- Add form ------------------------------------------------------- */
+
+.recipes__form {
+  display: grid;
+  gap: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+}
+
+.recipes__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.recipes__field label {
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.recipes__field input,
+.recipes__field textarea {
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  resize: vertical;
+}
+
+.recipes__field input:focus,
+.recipes__field textarea:focus {
+  outline: none;
+  border-color: var(--accent-border);
+}
+
+.recipes__field-hint {
+  font-size: 13px;
+}
+
+.recipes__field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 560px) {
+  .recipes__field-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recipes__form-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.recipes__error {
+  margin: 0;
+  font-size: 14px;
+  color: #d65a5a;
+}
+
+/* ---- Recipe list ---------------------------------------------------- */
+
+.recipes__list {
+  display: grid;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.recipe-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+  overflow: hidden;
+}
+
+.recipe-card__summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 18px 20px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.recipe-card__summary:hover .recipe-card__title {
+  color: var(--accent);
+}
+
+.recipe-card__title {
+  display: block;
+  font-size: 19px;
+  font-family: var(--heading);
+  color: var(--text-h);
+}
+
+.recipe-card__meta {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.recipe-card__category {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+}
+
+.recipe-card__body {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--border);
+}
+
+.recipe-card__body h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 20px 0 8px;
+}
+
+.recipe-card__body ul,
+.recipe-card__body ol {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.recipe-card__body li {
+  margin-bottom: 4px;
+}
+
+.recipe-card__footer {
+  margin-top: 20px;
+}
+
+/* ---- Empty state ---------------------------------------------------- */
+
+.recipes__empty {
+  text-align: center;
+  padding: 40px 24px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+}

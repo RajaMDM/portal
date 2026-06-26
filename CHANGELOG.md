@@ -2,6 +2,30 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-26 (first mini-app)
+
+**Recipes module MVP — the Portal's first real vertical slice (TRY-5).**
+
+- New self-contained mini-app under `src/apps/recipes/`: a browser-only recipe
+  book. Add a recipe, browse the list, expand any card for ingredients and
+  method, search across name/category/ingredients, and delete.
+- **Persistence** is plain `localStorage` under a versioned key
+  (`try-portal:recipes:v1`) — no backend, no account, nothing leaves the
+  device. The data layer (`data.ts`) seeds three fictitious sample recipes on
+  first run and degrades gracefully if storage is unavailable or corrupt.
+- Wired in with a **single registry entry** (`src/apps/registry.ts`), which is
+  all it takes to mount the route, the nav, and the home-grid card — proving
+  the module pattern the shell was built for.
+- Styling (`recipes.css`) is scoped but built on the Portal's design tokens, so
+  it inherits light/dark mode and matches the shell.
+
+_Business impact:_ the first product area now has a working tool, not a
+placeholder, and the "drop a folder, add one line" pattern is proven for every
+mini-app that follows. Verified in a headless browser: seed recipes render, a
+new recipe is added and survives a true page reload (localStorage), and search
+filters by name, category, and ingredient. `npm run build` passes with the app
+code-split into its own lazy chunk.
+
 ## 2026-06-26 (shell + navigation)
 
 **Portal shell with four top-level sections (TRY-3).**
