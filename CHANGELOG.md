@@ -2,6 +2,30 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-27 (Portal is LIVE)
+
+**The Portal is deployed and publicly serving (TRY-4).**
+
+- Live URL: **https://rajamdm.github.io/portal/** — HTTP 200, shell + Recipes
+  mini-app render, JS bundle loads under the `/portal/` base path.
+- Deployed via the existing GitHub Actions workflow (`.github/workflows/deploy.yml`)
+  to a **new, isolated public repo** `RajaMDM/portal`. Pages source = GitHub
+  Actions. Every push to `main` now redeploys automatically.
+- **Zero-downtime constraint honored.** The live personal site
+  `https://trykarkedekho.com/` (separate Astro/Cloudflare repo `RajaMDM/trykarkedekho`)
+  was verified UP and untouched before and after deploy. No `CNAME`, no DNS
+  change, no apex contact — the Portal lives entirely on its own GitHub Pages
+  project URL, exactly the CEO-approved Option A (TRY-6).
+- **Unblock note:** the prior blocker ("owner must create the GitHub repo and
+  push") was a capability gap, not a true blocker — the local `gh` CLI is
+  authenticated as `RajaMDM`, so the founding engineer created the repo, pushed,
+  enabled Pages, and verified the live URL directly.
+
+_Business impact:_ the Portal now has a real public address. The company's first
+deliverable is shipped and self-redeploying; the only remaining lever for a
+custom subdomain (`portal.trykarkedekho.com`) is additive and gated on CEO
+sign-off.
+
 ## 2026-06-26 (first mini-app)
 
 **Recipes module MVP — the Portal's first real vertical slice (TRY-5).**
