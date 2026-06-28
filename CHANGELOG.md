@@ -2,6 +2,35 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-28 (first real mini-app is the showcase)
+
+**The Recipe Book replaced the Welcome Tour scaffold (TRY-14).**
+
+- The throwaway "Welcome Tour" example mini-app (its component, registry entry,
+  and `/apps/welcome` route) was **removed**. It existed only to prove the
+  registry → route → screen wiring; now that a real tool ships, it was dead weight
+  on the Home "Jump back in" strip.
+- The **Recipe Book** is now the single showcased mini-app: a browser-only recipe
+  collection where you add a recipe (name, category, time, servings, ingredients,
+  method), browse newest-first, expand any card, search across name/category/
+  ingredients, and delete. State persists in `localStorage` under the versioned
+  key `try-portal:recipes:v1` — no backend, no account, nothing leaves the device.
+  (The app itself shipped in TRY-5; TRY-14 makes it the front-and-centre example
+  and retires the placeholder.)
+- Docs repointed from the old example to the Recipe Book as the canonical
+  "copy-this-to-start-a-new-mini-app" reference (README structure, TECH_MEMORY
+  code-splitting + HashRouter notes, ROADMAP "first real mini-app" item).
+- **Verified in a headless browser:** Home no longer lists the Welcome Tour; the
+  Recipes section and `/apps/recipes` render the real app; adding a recipe moves
+  the saved count 3 → 4 and the new recipe survives a full page reload (localStorage
+  proof); responsive at mobile/tablet/desktop; build green; zero console errors.
+- **Deploy unchanged:** still targets `rajamdm.github.io/portal` only — no `CNAME`,
+  no DNS, no apex contact.
+
+_Business impact:_ the Portal's public face is now a working tool a visitor can
+actually use, not a developer demo. The mini-app pattern is proven by a real
+feature, which is the template every future tool copies.
+
 ## 2026-06-27 (Portal is LIVE)
 
 **The Portal is deployed and publicly serving (TRY-4).**

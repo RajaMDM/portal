@@ -52,7 +52,7 @@ src/
   components/Layout.tsx  Header, nav, footer shell
   pages/               Home (mini-app grid), About, NotFound
   apps/registry.ts     The mini-app registry (single source of truth)
-  apps/welcome/        Example mini-app — copy it to start a new one
+  apps/recipes/        Recipe Book — the first real mini-app; copy it to start a new one
 ```
 
 ## Documentation
