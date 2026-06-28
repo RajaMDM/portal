@@ -63,6 +63,39 @@ a separate `WelcomeApp-*.js` chunk.
   variables in `index.css` and should be reused by mini-apps rather than
   hardcoding colors.
 
+## Data Profiler mini-app (TRY-15)
+
+`src/apps/data-profiler/` — three files: `parse.ts` (file → `Table`),
+`profile.ts` (`Table` → per-column stats, pure functions), `DataProfilerApp.tsx`
+(UI state machine: idle → parsing → done|error).
+
+- **Why fflate, not SheetJS (`xlsx`).** The de-facto XLSX library's *npm*
+  package is frozen at 0.18.5 (Apr 2022) with prototype-pollution CVE-2023-30533;
+  the fix (0.19.3+) ships only from the vendor's private CDN, not npm. We don't
+  pull half-maintained CVE'd code for a demo tool. Instead: **fflate** (`^0.8.3`,
+  MIT, ~8 KB, actively maintained) unzips the OOXML container and the browser's
+  own `DOMParser` reads the worksheet XML. Full control, no `any`, smaller
+  bundle. Details + alternatives in `DEFENSE_BRIEF.md`.
+- **XLSX is a ZIP of XML.** We read `xl/workbook.xml` + `xl/_rels/workbook.xml.rels`
+  to resolve the *first sheet by tab order* (not blindly `sheet1.xml`),
+  `xl/sharedStrings.xml` for string cells, and `xl/styles.xml` to learn which
+  cell styles are date formats.
+- **Excel date gotcha.** Dates are stored as serial numbers; whether a number is
+  a date is a *style* property (`numFmtId` 14–22/45–47 built-in, or a custom
+  `formatCode` containing d/m/y/h/s tokens), not a cell type. We map style index
+  → is-date, then convert serial → `Date` using epoch **1899-12-30** (absorbs
+  Excel's 1900-leap-year bug). Miss this and date columns render as `45306`.
+- **CSV parser is hand-rolled** (no dep) — a single-pass state machine for
+  quotes/escapes/embedded delimiters/CRLF, plus delimiter auto-detect from the
+  first line. CSV cells stay strings; `profile.ts` sniffs them with conservative
+  regexes (so a zip code isn't mistaken for a number-that's-a-date).
+- **Lazy-loaded.** Registered with `status: 'live'` + a `lazy()` component, so
+  fflate + the parser ship only when someone opens the tool (6.9 KB gzip chunk).
+- **Testing gotcha:** deep links are **hash** routes. The headless URL is
+  `http://localhost:<port>/#/apps/data-profiler`. Navigating to the *path*
+  `/apps/data-profiler` renders Home (empty hash → index route), which can look
+  like a routing bug but isn't.
+
 ## Deployment Safety (read before ANY deploy)
 
 **`trykarkedekho.com` is a LIVE production site and a SEPARATE codebase**

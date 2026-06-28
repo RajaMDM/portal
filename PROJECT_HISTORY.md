@@ -35,3 +35,39 @@ workspace — they are different codebases. Before building further, we need the
 CEO to confirm the source of truth: should this fresh scaffold become the
 canonical Portal repo, or should we adopt/continue the existing live codebase?
 Tracked on TRY-2.
+
+## 2026-06-28 — The Data section gets its first tool (TRY-15)
+
+Until now the **Data** section was an empty placeholder. We filled it with the
+tool that maps most directly to a complaint everyone in data management has
+heard: *"the master data is spread across too many Excels."*
+
+The **Excel / CSV Profiler** lets anyone drop a spreadsheet (`.csv` or `.xlsx`)
+and immediately see its shape — what the columns are, what type each one holds,
+how many values are missing, how many are distinct, and a preview of the first
+rows. It's the kind of thing a data person does manually, file after file, when
+trying to make sense of a pile of spreadsheets. Here it takes one drag-and-drop
+and a second.
+
+Two things matter for how it was built:
+
+- **Nothing leaves your computer.** The file is read and analysed entirely
+  inside the browser. There is no upload, no server, no account — which is both a
+  privacy win and the reason it costs us nothing to run. The screen says so
+  plainly so a cautious user trusts it.
+- **We were careful about the Excel reader.** Reading `.xlsx` needs a library.
+  The obvious one (SheetJS) ships a years-old version on the public package
+  registry that carries a known security flaw; the patched version is only on the
+  vendor's own download site. Rather than pull in flawed code for a demo, we used
+  a tiny, well-maintained unzip library and read the spreadsheet's internals
+  ourselves. The trade-off and the alternatives are written up in the defense
+  brief so the choice is defensible in a technical room.
+
+Verified in a headless browser: a sample customer CSV and a generated supplier
+workbook both profiled correctly (including turning Excel's internal date codes
+back into real dates), bad and empty files produced friendly errors, and the
+layout held up on a phone-sized screen. Screenshots captured as evidence.
+
+This is the Portal's pattern paying off: a genuinely useful tool added as one
+registry entry and a self-contained folder, with the shared shell, navigation,
+and routing coming for free.

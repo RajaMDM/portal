@@ -40,6 +40,51 @@ interactive app plumbing.
   keeps the home grid, nav, and routes in sync from one source, so contributors
   add a tool in one place and can't forget to register it three times.
 
+## Decision: fflate + DOMParser for XLSX, not SheetJS (`xlsx`) — TRY-15
+
+**The constraint that drove it:** the Data Profiler must read `.xlsx` files
+entirely in the browser, stay on free static hosting, keep the bundle small, and
+not introduce known-vulnerable code. Reading XLSX needs *some* library (it's a
+ZIP of XML); the question was which.
+
+### Alternatives considered
+
+| Option | Cost | Pros | Cons |
+| ------ | ---- | ---- | ---- |
+| **fflate + DOMParser (chosen)** | Free, MIT. ~8 KB added, lazy-loaded. | Tiny; actively maintained; no known CVEs; full control over parsing; browser-native XML reader; no `any`. | We write the worksheet/sharedStrings/styles reader ourselves (more code; must handle date formats, shared strings, sparse cells). |
+| **SheetJS `xlsx` (npm)** | "Free" but **the npm build is frozen at 0.18.5 (Apr 2022)**. | Battle-tested; handles every Excel edge case; one call to read a sheet. | npm version carries **prototype-pollution CVE-2023-30533**; the fix (0.19.3+) is published **only on the vendor's private CDN**, not npm. Large (~hundreds of KB). Installing the "official" npm package = shipping CVE'd code. |
+| **ExcelJS** | Free, MIT, maintained. | Reads+writes XLSX; active. | Heavy (designed for writing/styling, much of which we don't need); bigger bundle than our needs. |
+
+### Why the chosen option wins
+
+For a *read-only profiler* we need cell values, shared strings, and date
+detection — a small, well-scoped problem. fflate handles the only genuinely hard
+part (inflate/unzip); the rest is a few hundred lines of focused XML reading we
+fully control and can keep `any`-free. We avoid shipping a CVE'd dependency, keep
+the lazy chunk at ~7 KB gzip, and don't tie a demo tool to a vendor's private CDN
+release channel.
+
+### If a developer pushes back
+
+- *"Everyone just uses SheetJS."* — Everyone uses the *npm* package, which is
+  the 2022 build with CVE-2023-30533. The fix isn't on npm; you'd have to install
+  from `https://cdn.sheetjs.com`. For a read-only profiler that's a bad trade vs.
+  ~300 lines we control.
+- *"Hand-rolling a parser is risky."* — The risky part (decompression) is
+  delegated to fflate. Our code only walks already-decompressed XML with the
+  browser's own `DOMParser`. It's covered by headless tests against a real CSV
+  and a generated XLSX (including Excel date-serial conversion).
+- *"What about `.xls` (old binary format)?"* — Out of scope; the tool tells the
+  user to re-save as `.xlsx`. The old BIFF format is a different, heavier parsing
+  problem we don't need for the demo.
+
+### Growth path (this decision)
+
+If a future tool needs **writing** spreadsheets, full Excel fidelity (merged
+cells, formulas, styling), or `.xls`, revisit ExcelJS or SheetJS-from-CDN then —
+scoped to the mini-app that needs it, not the whole Portal. Trigger: a mini-app
+whose value depends on Excel features our lean reader doesn't cover.
+
 ## Growth path
 
 - **Now:** static SPA on free hosting; HashRouter; everything client-side.
