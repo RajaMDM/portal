@@ -23,8 +23,19 @@ Where the Portal is heading, what's blocked, and what triggers the next phase.
   verified UP and untouched. No `CNAME`, no DNS change — CEO-approved Option A
   (TRY-6) honored.
 
+## Phase 3 — Section tools landing ▶ (in progress)
+
+- **Data: Excel / CSV Profiler ✅ (2026-06-28, TRY-15).** First Data-section
+  mini-app. Drop a `.csv`/`.xlsx`, get a column profile (type, null %, distinct)
+  + sample rows, parsed entirely in the browser. fflate for the XLSX unzip;
+  hand-rolled CSV parser. Lazy-loaded 6.9 KB-gzip chunk. Verified headless.
+- Each section (School, Data, Recipes, AI Examples) earns real tools over time;
+  scope/priority of each remains a CEO call.
+
 ## Immediate next
 
+- **More section tools**, as the CEO names priorities. The Profiler is a proven
+  template for the next Data tool (drop-a-file → analyse in-browser).
 - **First real mini-app.** Replace the Welcome Tour with an actual tool once the
   CEO names the first priority (school tool, data tool, recipe space, or AI
   example). *This is the current product-direction decision pending the CEO.*

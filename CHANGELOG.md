@@ -2,6 +2,38 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-28 (first Data mini-app)
+
+**Excel / CSV Profiler — the Portal's first Data-section tool (TRY-15).**
+
+- New mini-app under `src/apps/data-profiler/`: drop a `.csv` or `.xlsx` file
+  and get an instant column profile (name, inferred type, null %, distinct
+  count) plus a 10-row sample preview. Directly attacks the "master data spread
+  across too many Excels" pain — point it at any of those files and see its
+  shape in seconds.
+- **100% client-side.** Files are read with the browser File API and parsed in
+  place; nothing is uploaded. A prominent privacy note says so on screen.
+- **CSV** is parsed by a hand-rolled state machine (no dependency): quoted
+  fields, escaped quotes, embedded commas/newlines, CRLF/LF, and delimiter
+  auto-detection (comma/semicolon/tab).
+- **XLSX** is unzipped with **fflate** (~8 KB, MIT, actively maintained) and its
+  worksheet XML read with the browser-native `DOMParser`. We deliberately did
+  **not** use SheetJS `xlsx` — its npm-registry build is frozen at 0.18.5 with a
+  known prototype-pollution CVE (fix only on the vendor's private CDN). See
+  `DEFENSE_BRIEF.md`.
+- **Excel date serials are converted to real dates** (e.g. `45306` →
+  `2024-01-15`) by reading `styles.xml` number formats — so a date column reads
+  as a date, not a mystery integer.
+- Graceful, friendly errors for empty and malformed files. Type inference,
+  null %, and distinct counts verified column-by-column in a headless browser
+  for both a CSV and a generated XLSX fixture; responsive at 375 px.
+- The whole tool (parser + fflate) is a **lazy-loaded 6.9 KB-gzip chunk** — the
+  main bundle is untouched.
+
+_Business impact:_ the Data section is no longer an empty placeholder. The
+Portal now has a tangible, demonstrable answer to a real master-data complaint,
+running entirely in the browser with zero infrastructure cost.
+
 ## 2026-06-27 (Portal is LIVE)
 
 **The Portal is deployed and publicly serving (TRY-4).**

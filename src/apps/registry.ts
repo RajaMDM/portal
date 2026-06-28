@@ -30,6 +30,16 @@ export interface MiniApp {
 
 export const apps: MiniApp[] = [
   {
+    slug: 'data-profiler',
+    name: 'Excel / CSV Profiler',
+    description:
+      'Drop a spreadsheet and instantly see its shape — column types, missing values, and distinct counts. Direct relief for master data spread across too many Excels. Parsed in your browser; nothing is uploaded.',
+    category: 'Data',
+    icon: '📊',
+    status: 'live',
+    component: lazy(() => import('./data-profiler/DataProfilerApp')),
+  },
+  {
     slug: 'recipes',
     name: 'Recipe Book',
     description:
