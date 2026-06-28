@@ -23,11 +23,21 @@ Where the Portal is heading, what's blocked, and what triggers the next phase.
   verified UP and untouched. No `CNAME`, no DNS change — CEO-approved Option A
   (TRY-6) honored.
 
+## Phase 3 — First real mini-apps (in progress)
+
+- **Recipes:** Recipe Book mini-app shipped (TRY-5) — the first real vertical
+  slice (add/search/persist in localStorage).
+- **AI Examples:** Text Summarizer shipped (TRY-16) — the first client-side AI
+  example. User-supplied Anthropic key entered at runtime (never stored),
+  streaming summary, model + style pickers. Proves the "bring your own key"
+  pattern end to end. The AI Examples section is no longer an empty placeholder.
+- *Still open:* School and Data sections remain empty-state until the CEO names
+  their first tools.
+
 ## Immediate next
 
-- **First real mini-app.** Replace the Welcome Tour with an actual tool once the
-  CEO names the first priority (school tool, data tool, recipe space, or AI
-  example). *This is the current product-direction decision pending the CEO.*
+- **More mini-apps per CEO priority.** School and Data sections still need their
+  first tools — a CEO product-direction call.
 - **Optional: custom subdomain.** `portal.trykarkedekho.com` as an **additive**
   CNAME on the Portal's Pages project — gated on **CEO sign-off**. Never repoint
   the apex (= sev-1). Full guardrail detail in `TECH_MEMORY.md` → Deployment

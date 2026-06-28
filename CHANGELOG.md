@@ -2,6 +2,36 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-28 (first AI example)
+
+**AI Examples mini-app shipped: a client-side Text Summarizer (TRY-16).**
+
+- New mini-app at `#/apps/ai-summarizer`: paste any text, pick a model and an
+  output style (concise paragraph / bullets / key takeaways), and Claude streams
+  back a summary — entirely in the browser.
+- **User-supplied key, never persisted.** The Anthropic API key is entered at
+  runtime, held in component state (memory) only, and sent only to
+  `api.anthropic.com`. It is never written to disk, never committed, and a page
+  reload clears it. Show/hide and Clear controls plus a plain-English privacy
+  note sit next to the field.
+- Built on the official `@anthropic-ai/sdk` (browser mode) with streaming,
+  typed error mapping (bad key, rate limit, network, etc.), and a cancel/Stop
+  control. Default model **Claude Opus 4.8**; Sonnet 4.6 and Haiku 4.5 offered
+  as cheaper/faster options the user can pick.
+- Lazily code-split: the SDK + app load only when this mini-app is opened
+  (~42 kB gzip), so the rest of the Portal is unaffected.
+- The AI Examples section now surfaces a live tool instead of an empty state.
+
+_Business impact:_ the Portal's fourth section is no longer a placeholder — it
+demonstrates a real, useful AI feature with a defensible privacy story (no
+backend, no stored secrets), reinforcing the "bring your own key" pattern that
+keeps hosting free.
+
+_Verified:_ `npm run lint` and `npm run build` pass; headless browser confirms
+the card renders, the mini-app loads, an invalid key produces the mapped error
+"That API key was rejected" via a real 401 round-trip (CORS works), and the
+layout is responsive (desktop + mobile screenshots captured).
+
 ## 2026-06-27 (Portal is LIVE)
 
 **The Portal is deployed and publicly serving (TRY-4).**
