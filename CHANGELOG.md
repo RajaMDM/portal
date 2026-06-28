@@ -2,6 +2,21 @@
 
 Meaningful, dated changes — not every commit. Newest first.
 
+## 2026-06-28 (CI maintenance — clear Node 20 deprecation)
+
+**Bumped all `actions/*` in the Pages deploy workflow to current majors (TRY-17).**
+
+- `actions/checkout` v4 → **v7**, `actions/setup-node` v4 → **v6**,
+  `actions/upload-pages-artifact` v3 → **v5**, `actions/deploy-pages` v4 → **v5**.
+- **Why:** the older majors ran on the Node 20 runtime, which GitHub now flags
+  with a non-blocking deprecation warning on every run. The new majors run on
+  Node 24, clearing the warning.
+- **No behavior change.** Deploy target is unchanged (`rajamdm.github.io/portal`),
+  no `CNAME`, no DNS/apex contact. Local production build stays green.
+
+_Business impact:_ keeps CI on supported, non-deprecated tooling so the deploy
+pipeline doesn't break when GitHub eventually removes the Node 20 runtime.
+
 ## 2026-06-27 (Portal is LIVE)
 
 **The Portal is deployed and publicly serving (TRY-4).**

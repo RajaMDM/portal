@@ -62,6 +62,15 @@ a separate `WelcomeApp-*.js` chunk.
   `.app-shell` inside `Layout`. Design tokens (colors, type, dark mode) are CSS
   variables in `index.css` and should be reused by mini-apps rather than
   hardcoding colors.
+- **Keep `actions/*` on current majors (TRY-17, 2026-06-28).** GitHub retires the
+  Node runtime that an action major is built against (Node 20 → Node 24), and
+  stale majors emit a non-blocking deprecation warning that eventually becomes a
+  hard failure. As of 2026-06-28 the deploy workflow pins: `checkout@v7`,
+  `setup-node@v6`, `upload-pages-artifact@v5`, `deploy-pages@v5`. Bump majors with
+  `gh api repos/<owner>/<action>/releases/latest --jq .tag_name` — don't guess
+  version numbers from memory. Action bumps never change build output (the build
+  is npm-based), so a green local `npm run build` plus a successful deploy run is
+  sufficient verification.
 
 ## Deployment Safety (read before ANY deploy)
 
