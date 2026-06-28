@@ -42,11 +42,11 @@ child routes for `index` (Home), `about`, each live mini-app at
 **Code splitting.** Mini-app components are `lazy()`-imported in the registry and
 rendered inside `<Suspense>`. The initial bundle stays small as the Portal
 grows; each mini-app's JS is only fetched when opened. Verified: the build emits
-a separate `WelcomeApp-*.js` chunk.
+a separate `RecipesApp-*.js` chunk.
 
 ## Gotchas / decisions to remember
 
-- **HashRouter, not BrowserRouter.** URLs look like `/#/apps/welcome`. This is
+- **HashRouter, not BrowserRouter.** URLs look like `/#/apps/recipes`. This is
   deliberate: it makes deep links work from a single `index.html` with no server
   rewrite rules, which is what free static hosts give us. Switching to
   `BrowserRouter` later requires a host that rewrites unknown paths to

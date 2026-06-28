@@ -25,9 +25,18 @@ Where the Portal is heading, what's blocked, and what triggers the next phase.
 
 ## Immediate next
 
-- **First real mini-app.** Replace the Welcome Tour with an actual tool once the
-  CEO names the first priority (school tool, data tool, recipe space, or AI
-  example). *This is the current product-direction decision pending the CEO.*
+- **First real mini-app — DONE (TRY-14).** The Recipe Book replaced the Welcome
+  Tour scaffold: a browser-only recipe collection (add/browse/search, localStorage
+  persistence) is now the showcased mini-app in the Recipes section. The toy
+  example app and its route were removed; the Recipe Book is the copy-from
+  reference for the next mini-app.
+  - *Persistence trigger to watch:* recipes live in `localStorage`
+    (`try-portal:recipes:v1`), capped at ~5 MB per origin. When users hit that
+    limit, or recipes must sync across devices, escalate the "Persisted data
+    beyond browser" phase below (cost/alternatives writeup to the CEO first).
+- **Next mini-app priority is a CEO call.** Which section gets the second real
+  tool (school, data, or AI example) is a product-direction decision pending the
+  CEO.
 - **Optional: custom subdomain.** `portal.trykarkedekho.com` as an **additive**
   CNAME on the Portal's Pages project — gated on **CEO sign-off**. Never repoint
   the apex (= sev-1). Full guardrail detail in `TECH_MEMORY.md` → Deployment

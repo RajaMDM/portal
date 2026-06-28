@@ -7,6 +7,9 @@ import { lazy } from 'react'
  * single source of truth: the home grid, the nav, and the router are all
  * generated from this list. To add a mini-app, drop a folder under `src/apps/`
  * and append one entry here — no routing or layout edits required.
+ *
+ * The Recipe Book below is the canonical reference: copy its folder shape
+ * (a screen component plus a data layer) and registry entry to start a new one.
  */
 export interface MiniApp {
   /** URL slug, mounted at `/apps/<slug>`. Keep it kebab-case and stable. */
@@ -38,16 +41,6 @@ export const apps: MiniApp[] = [
     icon: '🍳',
     status: 'live',
     component: lazy(() => import('./recipes/RecipesApp')),
-  },
-  {
-    slug: 'welcome',
-    name: 'Welcome Tour',
-    description:
-      'A tiny example mini-app that demonstrates the Portal pattern: its own route, card, and lazily-loaded screen.',
-    category: 'Utilities',
-    icon: '👋',
-    status: 'live',
-    component: lazy(() => import('./welcome/WelcomeApp')),
   },
 ]
 
