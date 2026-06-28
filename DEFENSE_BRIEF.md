@@ -91,3 +91,46 @@ Whether this scaffold is the canonical repo or we adopt the existing live
 codebase is a source-of-truth decision for the CEO — raised on TRY-2. This brief
 assumes the scaffold-as-foundation case until told otherwise. Either way, the
 Deployment Safety guardrail above is unconditional.
+
+## AI Examples: the Text Summarizer (TRY-16)
+
+**Why call Claude from the browser at all, with no backend?**
+A backend would mean a server to run, pay for, and secure — and a place to store
+an API key. Our hard constraint is free static hosting and no committed secrets.
+The "bring your own key" pattern removes both problems: the user supplies their
+own key at runtime, pays for their own usage, and the key never touches our
+infrastructure. This is the only way to ship a real AI feature under the current
+cost guardrail.
+
+**Why the official `@anthropic-ai/sdk` over hand-rolled `fetch`?**
+The SDK handles the things that are easy to get subtly wrong: the browser CORS
+header, streaming event assembly, and a set of typed error classes we map to
+plain-English messages. It is the documented, supported path. The alternative —
+raw `fetch` to `/v1/messages` — would be dependency-free (matching the rest of
+the Portal's ethos) and a few KB smaller, but we'd reimplement streaming and
+error handling by hand and own that maintenance. We chose correctness and
+support over shaving a dependency; the cost is one well-maintained package,
+lazy-loaded so it ships only when this one mini-app is opened (~42 kB gzip).
+*Growth path:* if the Portal later adds many AI tools, factor the client setup
+into a shared helper; if we ever need to hide a company key, that's the trigger
+for a thin proxy backend (a cost/infra decision for the CEO).
+
+**Why is `dangerouslyAllowBrowser: true` acceptable?**
+The flag's name warns against exposing a *secret* key in client code. Here there
+is no secret to expose — the key is the user's own, typed in at runtime and held
+only in memory. The warning is about shipping *your* key to users; we ship none.
+
+**Why not persist the key (localStorage / sessionStorage)?**
+Persisting would spare the user re-entering it after a reload, but it widens the
+privacy surface: a stored key lingers on the device and can be read by any script
+on the origin. For a public demo the cleaner promise — "your key never leaves this
+tab's memory and is gone on reload" — is worth the minor inconvenience. *Trigger
+to revisit:* if usage data shows people running many summaries per session and
+the re-entry is a real friction, offer an explicit, clearly-labelled
+"remember for this session" opt-in using `sessionStorage`.
+
+**Why default to Opus 4.8 but offer cheaper models?**
+Opus is the most capable default and showcases the best result. But the *user*
+pays per token, so the choice of cost/speed should be theirs — hence Sonnet 4.6
+and Haiku 4.5 in the picker. Defaulting to the best model while exposing cheaper
+options is the honest middle ground.

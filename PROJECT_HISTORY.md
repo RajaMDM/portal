@@ -35,3 +35,35 @@ workspace — they are different codebases. Before building further, we need the
 CEO to confirm the source of truth: should this fresh scaffold become the
 canonical Portal repo, or should we adopt/continue the existing live codebase?
 Tracked on TRY-2.
+
+## 2026-06-28 — First AI example: the Text Summarizer (TRY-16)
+
+The AI Examples section had been an empty placeholder. This change made it real
+with the Portal's first AI-powered tool: a **Text Summarizer**.
+
+What it does, in plain terms: you paste in some text — an article, an email
+thread, meeting notes — choose how you want it summarised (a short paragraph,
+bullet points, or key takeaways), and the summary streams back in seconds. It
+runs entirely in your browser; there is no server of ours in the loop.
+
+The one thing a user must bring is their own Anthropic API key. We made a
+deliberate choice about how that key is handled: it lives only in the page's
+memory while you use it, is sent only to Anthropic, and is gone the moment you
+reload. It is never saved to disk and never stored in our code. A short privacy
+note next to the key field says exactly this, so there is no mystery about where
+the key goes.
+
+Why this matters for the business: it proves the "bring your own key" pattern
+that lets us ship genuinely useful AI features with **zero ongoing cost and zero
+secrets to protect** — the same constraint that keeps the whole Portal on free
+hosting. It also turns the fourth and last empty section into a working
+demonstration, which is the point of the Portal: a public, credible shop window
+for the company's data-and-AI work.
+
+We defaulted the tool to the strongest model (Claude Opus 4.8) but let the user
+switch to cheaper, faster models (Sonnet, Haiku) — because the user pays for
+their own usage, the choice should be theirs.
+
+Verified end to end in a real browser: the tool loads, a wrong key produces a
+clear "that key was rejected" message (proving the live call path works), and
+the layout holds up on a phone.

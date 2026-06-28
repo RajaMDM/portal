@@ -30,6 +30,16 @@ export interface MiniApp {
 
 export const apps: MiniApp[] = [
   {
+    slug: 'ai-summarizer',
+    name: 'Text Summarizer',
+    description:
+      'Paste any text and Claude summarises it in your browser. Bring your own API key — entered at runtime, never stored. The AI Examples section’s first slice.',
+    category: 'AI',
+    icon: '🤖',
+    status: 'live',
+    component: lazy(() => import('./ai-summarizer/AiSummarizerApp')),
+  },
+  {
     slug: 'recipes',
     name: 'Recipe Book',
     description:

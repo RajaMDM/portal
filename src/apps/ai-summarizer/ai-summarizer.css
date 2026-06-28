@@ -1,0 +1,170 @@
+/**
+ * Scoped styles for the AI Summarizer mini-app. All colours come from the
+ * Portal's design tokens (--accent / --border / --card-bg in src/index.css) so
+ * the app inherits light/dark mode for free and matches the shell.
+ */
+
+.ai {
+  max-width: 760px;
+}
+
+.ai__intro {
+  margin-bottom: 24px;
+}
+
+/* ---- Fields --------------------------------------------------------- */
+
+.ai__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.ai__field label {
+  font-size: 14px;
+  color: var(--text-h);
+}
+
+.ai__input,
+.ai__textarea {
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.ai__textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.ai__input:focus,
+.ai__textarea:focus {
+  outline: none;
+  border-color: var(--accent-border);
+}
+
+.ai__field-hint {
+  font-size: 13px;
+}
+
+/* ---- API key row ---------------------------------------------------- */
+
+.ai__key-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.ai__key-row .ai__input {
+  flex: 1 1 auto;
+  font-family: var(--mono);
+}
+
+.ai__privacy {
+  margin: 4px 0 0;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+/* ---- Options row ---------------------------------------------------- */
+
+.ai__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 560px) {
+  .ai__options {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Buttons -------------------------------------------------------- */
+
+.ai__btn {
+  font: inherit;
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-border);
+  background: var(--accent-bg);
+  color: var(--text-h);
+  white-space: nowrap;
+}
+
+.ai__btn:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.ai__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai__btn--ghost {
+  border-color: var(--border);
+  background: transparent;
+  color: var(--text);
+}
+
+/* ---- Actions -------------------------------------------------------- */
+
+.ai__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+/* ---- Error ---------------------------------------------------------- */
+
+.ai__error {
+  margin: 0 0 16px;
+  font-size: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d65a5a;
+  color: #d65a5a;
+  background: rgba(214, 90, 90, 0.08);
+}
+
+/* ---- Output --------------------------------------------------------- */
+
+.ai__output {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card-bg);
+  padding: 20px;
+}
+
+.ai__output-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ai__output-head h2 {
+  margin: 0;
+}
+
+.ai__summary {
+  margin: 0;
+  white-space: pre-wrap;
+  color: var(--text-h);
+}
+
+.ai__summary--pending {
+  color: var(--text);
+  font-style: italic;
+}

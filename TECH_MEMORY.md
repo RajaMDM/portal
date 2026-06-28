@@ -91,3 +91,46 @@ Source-of-truth reconciliation (is this scaffold canonical, or do we adopt the
 live codebase?) is an open question raised to the CEO on TRY-2. Until resolved,
 do not assume this scaffold is the deployed site — but regardless of that
 outcome, the no-touch guardrail above stands.
+
+## AI Examples: client-side Claude calls (TRY-16)
+
+The first AI mini-app (`src/apps/ai-summarizer/`) calls the Anthropic Messages
+API **directly from the browser**. Key technical decisions and gotchas:
+
+- **Official SDK, browser mode.** Uses `@anthropic-ai/sdk` with
+  `dangerouslyAllowBrowser: true`. That flag is required for any browser call —
+  it makes the SDK send the `anthropic-dangerous-direct-browser-access: true`
+  header so Anthropic's CORS layer accepts the request. It is *safe here*
+  precisely because the only credential in play is the user's own key, supplied
+  at runtime. There is no shared/company secret that could leak. Verified: a real
+  request reaches `api.anthropic.com` and a bad key returns 401 (no CORS block).
+- **Key handling.** The key lives in React state only — never `localStorage`,
+  never `sessionStorage`, never the repo. A reload clears it. This is the cleanest
+  privacy story and satisfies the "no secrets committed" guardrail. Trade-off:
+  the user re-enters the key after a reload; acceptable for a demo tool.
+- **Streaming.** Uses `client.messages.stream(...).finalMessage()` with an
+  `on('text')` handler so output appears token-by-token. An `AbortController`
+  backs a Stop button; an intentional abort is treated as a clean cancel, not an
+  error.
+- **No `thinking` block.** Summarisation is a direct task — we omit extended
+  thinking for speed and lower cost. `max_tokens` is capped at 1024 to bound the
+  user's per-run spend. Default model is `claude-opus-4-8` (bare alias, no date
+  suffix); Sonnet 4.6 / Haiku 4.5 are selectable. All three share the same call
+  shape, so the model is just a string swap.
+- **Error mapping.** `describeError()` maps the SDK's typed error classes
+  (`AuthenticationError`, `RateLimitError`, `APIConnectionError`, …) to short,
+  user-facing English. Never surface a raw stack trace.
+- **Bundle / build gotcha.** The SDK pulls in a Node-only OAuth credentials
+  module; Vite externalises `node:fs` / `node:path` for it and prints a benign
+  warning during build. That module is never reached in the browser (we pass
+  `apiKey` directly), so the warning is expected — not an error. The whole
+  mini-app is `lazy()`-loaded, so the SDK (~42 kB gzip) only ships when a user
+  opens this route.
+
+### Gotcha: shared working tree across concurrent agents
+
+During TRY-16 the working tree was shared with another agent's in-flight branch
+(TRY-15). Branch checkouts and `package.json` edits collided. Lesson: **work in
+an isolated `git worktree`** (other agents were already doing this — e.g.
+`/tmp/try14-wt`). Build/verify/commit inside the worktree; never reset shared
+files like `package.json` in the common tree, or you clobber a sibling's deps.
